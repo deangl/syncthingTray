@@ -19,6 +19,7 @@ checkInterval := 2000
 
 global apiKey
 
+
 getconfig()
 getapiKey()
 keepOpen()
@@ -126,11 +127,14 @@ checkNew:
 
 getapiKey(){
         FileRead, xmldata, %configFile%
-        doc := ComObjCreate("MSXML2.DOMDocument.6.0")
-        doc.async := false
-        doc.loadXML(xmldata)
-        DocNode := doc.selectSingleNode("//configuration/gui/apikey")
-        apiKey := DocNode.text
+        apiKey := StrSplit(xmldata,"<apikey>")[2]
+        apiKey := StrSplit(apiKey, "</apikey>")[1]
+        ;doc := ComObjCreate("MSXML2.DOMDocument.6.0")
+        ;doc.setProperty("SelectionNamespaces", "xmlns:bk='urn:books'")
+        ;doc.async := false
+        ;doc.loadXML(xmldata)
+        ;DocNode := doc.selectSingleNode("/configuration/gui/apikey")
+        ;apiKey := DocNode.text
 }
 
 getconfig(){
